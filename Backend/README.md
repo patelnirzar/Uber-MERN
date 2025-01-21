@@ -66,3 +66,69 @@ Register a new user account with firstname, lastname, email, and password.
 - Password must be at least 6 characters long
 - Firstname must be at least 3 characters long
 - Lastname is optional
+
+## User Login
+
+### POST /users/login
+
+#### Description
+Authenticate a user and receive a JWT token.
+
+#### Request
+- Method: `POST`
+- URL: `/users/login`
+- Content-Type: `application/json`
+
+#### Request Body
+```json
+{
+  "email": "string",    // required, valid email format
+  "password": "string"  // required, min length: 6
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Login successful |
+| 400 | Validation error |
+| 401 | Invalid credentials |
+| 404 | User not found |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "token": "jwt_token_string",
+  "user": {
+    "email": "john@example.com",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    }
+  }
+}
+```
+
+#### Error Response (400/401/404)
+```json
+{
+  "message": "Invalid credentials"
+}
+```
+or
+```json
+{
+  "errors": [
+    {
+      "msg": "Email is invalid",
+      "param": "email",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Validation Rules
+- Email must be a valid email format
+- Password must be at least 6 characters long
