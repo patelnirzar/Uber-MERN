@@ -227,3 +227,175 @@ All protected routes use the `authUser` middleware which:
 2. Checks if the token is blacklisted
 3. Verifies the token's signature and expiration
 4. Attaches the user object to the request if authentication is successful
+
+## Captain Registration
+
+### POST /captain/register
+
+#### Description
+Register a new captain account with personal and vehicle details.
+
+#### Request
+- Method: `POST`
+- URL: `/captain/register`
+- Content-Type: `application/json`
+
+#### Request Body
+```json
+{
+  "fullname": {
+    "firstname": "string", // required, min length: 3
+    "lastname": "string"   // optional
+  },
+  "email": "string",       // required, valid email format
+  "password": "string",    // required, min length: 6
+  "vehicle": {
+    "color": "string",     // required, min length: 3
+    "plate": "string",     // required, min length: 3
+    "capacity": "number",  // required, min: 1
+    "vehicleType": "string" // required, enum: ['motorcycle', 'car', 'auto']
+  }
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 201 | Captain successfully created |
+| 400 | Validation error or Captain already exists |
+| 500 | Internal server error |
+
+#### Success Response (201)
+```json
+{
+  "token": "jwt_token_string",
+  "captain": {
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john@example.com",
+    "color": "black",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+## Captain Login
+
+### POST /captain/login
+
+#### Description
+Authenticate a captain and receive a JWT token.
+
+#### Request
+- Method: `POST`
+- URL: `/captain/login`
+- Content-Type: `application/json`
+
+#### Request Body
+```json
+{
+  "email": "string",    // required, valid email format
+  "password": "string"  // required, min length: 6
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 201 | Login successful |
+| 400 | Validation error |
+| 401 | Invalid credentials |
+| 404 | Captain not found |
+| 500 | Internal server error |
+
+#### Success Response (201)
+```json
+{
+  "token": "jwt_token_string",
+  "captain": {
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john@example.com",
+    "color": "black",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+## Captain Profile
+
+### GET /captain/profile
+
+#### Description
+Get the authenticated captain's profile information. Requires authentication.
+
+#### Request
+- Method: `GET`
+- URL: `/captain/profile`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Success |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com",
+    "vehicle": {
+      "color": "black",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "status": "inactive",
+    "location": {
+      "lat": null,
+      "long": null
+    },
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+## Captain Logout
+
+### GET /captain/logout
+
+#### Description
+Logout the captain and blacklist their JWT token.
+
+#### Request
+- Method: `GET`
+- URL: `/captain/logout`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Logout successful |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "message": "Logged out"
+}
+```

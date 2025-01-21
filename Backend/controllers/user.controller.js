@@ -12,6 +12,10 @@ const registerUser = async (req, res) => {
     }
 
     const { fullname, email, password } = req.body;
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
 
     const hashPassword = await User.hashPassword(password);
 
@@ -25,7 +29,7 @@ const registerUser = async (req, res) => {
 
     const token = user.generateAuthToken();
 
-    return res.status(201).json({ token, user });  
+    return res.status(201).json({ token, user: { email: user.email, fullname: user.fullname } });  
 }
 
 const loginUser = async (req, res) => { 
