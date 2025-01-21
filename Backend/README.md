@@ -132,3 +132,98 @@ or
 #### Validation Rules
 - Email must be a valid email format
 - Password must be at least 6 characters long
+
+## User Profile
+
+### GET /users/profile
+
+#### Description
+Get the authenticated user's profile information. Requires authentication.
+
+#### Request
+- Method: `GET`
+- URL: `/users/profile`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Success |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "user": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com",
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+## User Logout
+
+### GET /users/logout
+
+#### Description
+Logout the user and blacklist their JWT token.
+
+#### Request
+- Method: `GET`
+- URL: `/users/logout`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Logout successful |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+## JWT Token Blacklisting
+
+The application implements JWT token blacklisting for enhanced security:
+
+- When a user logs out, their JWT token is added to a blacklist
+- Blacklisted tokens are stored in MongoDB with an automatic expiration of 24 hours
+- The `authUser` middleware checks if a token is blacklisted before allowing access
+- If a blacklisted token is used, the request is rejected with a 401 status
+- Expired tokens are automatically removed from the blacklist after 24 hours
+
+### Authentication Middleware
+
+All protected routes use the `authUser` middleware which:
+1. Extracts the JWT token from the Authorization header or cookies
+2. Checks if the token is blacklisted
+3. Verifies the token's signature and expiration
+4. Attaches the user object to the request if authentication is successful
