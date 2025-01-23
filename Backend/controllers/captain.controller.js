@@ -70,7 +70,7 @@ const loginCaptain = async (req, res) => {
 
     res.cookie('token', token, { httpOnly: true });
 
-    return res.status(201).json({
+    return res.status(200).json({
         token, captain: {
             firstname: captain.fullname.firstname,
             lastname: captain.fullname.lastname,
