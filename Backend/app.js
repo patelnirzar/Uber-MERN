@@ -18,6 +18,7 @@ app.use(cookieParser());
 
 app.use('/users', UserRouter);
 app.use('/captain', captainRouter);
+app.use('/captains', captainRouter); //some api on frontend is /captains
 
 
 
