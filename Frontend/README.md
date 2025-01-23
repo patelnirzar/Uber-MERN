@@ -1,67 +1,76 @@
 # Uber MERN Frontend
 
-A React-based frontend application for an Uber-like ride-sharing service built with Vite.
-
-## Project Structure
-
-### Components and Pages
-
-- `Home.jsx` - Landing page with initial user interaction
-- `UserLogin.jsx` - User authentication page
-- `UserSignup.jsx` - New user registration page
-- `CaptainLogin.jsx` - Driver (Captain) authentication page
-- `CaptainSignup.jsx` - New driver registration page
-
-### Context
-
-- `UserContext.jsx` - Global state management for user data
+A React-based frontend application for an Uber-like ride-sharing service built with MERN stack.
 
 ## Features
 
-- Separate authentication flows for users and drivers
-- Responsive design using Tailwind CSS
-- Form validation and state management
-- Protected routes and navigation
+- User authentication (signup/login/logout)
+- Captain (driver) authentication
+- Protected routes for both users and captains
+- Responsive design with Tailwind CSS
+- Context-based state management
+- Axios for API integration
 
 ## Tech Stack
 
-- React 
+- React
 - React Router DOM
+- Axios
 - Tailwind CSS
-- Context API for state management
-- Vite for build tooling
+- Vite
+- Context API
 
-## Getting Started
+## Setup Instructions
 
-1. Install dependencies:
+1. Clone the repository
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-2. Run development server:
+3. Create a `.env` file in the root directory with:
+```
+VITE_BASE_URL=your_backend_api_url
+```
+
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
-3. Build for production:
-```bash
-npm run build
+## Project Structure
+
+```
+src/
+├── context/
+│   ├── UserContext.jsx
+│   └── CaptainContext.jsx
+├── pages/
+│   ├── User flows
+│   │   ├── UserLogin.jsx
+│   │   ├── UserLogout.jsx
+│   │   └── UserProtectedWrapper.jsx
+│   ├── Captain flows
+│   │   ├── CaptainLogin.jsx
+│   │   ├── CaptainLogout.jsx
+│   │   └── CaptainProtectedWrapper.jsx
+│   └── Common
+│       ├── Home.jsx
+│       └── Start.jsx
 ```
 
-## Routes
+## Authentication Flow
 
-- `/` - Home page
-- `/login` - User login
-- `/signup` - User registration
-- `/captain-login` - Driver login
-- `/captain-signup` - Driver registration
+- Users and Captains have separate authentication flows
+- JWT tokens are stored in localStorage
+- Protected routes check for valid tokens
+- Automatic redirect to login for unauthorized access
 
-## Environment Setup
+## API Integration
 
-This project requires:
-- Node.js v14+
-- npm v6+
-- Modern web browser
+Uses Axios for API calls with endpoints:
+- `/users/*` - User related operations
+- `/captain/*` - Captain related operations
 
 ## Contributing
 

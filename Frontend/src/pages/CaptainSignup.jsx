@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import { UserDataContext } from "../context/UserContext";
+import axios from "axios";
+import { CaptainDataContext } from "../context/CapatainContext";
 
 function CaptainSignup() {
   const [email, setEmail] = useState("");
@@ -15,24 +15,48 @@ function CaptainSignup() {
   const [vehicleCapacity, setVehicleCapacity] = useState("");
   const [vehicleType, setVehicleType] = useState("");
 
-  const submitHandler = (e) => {
+  const { captain, setCaptain } = useContext(CaptainDataContext);
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    setUserData({
-      fullName: {
-        firstName: firstName,
-        lastName: lastName,
+    const captainData = {
+      fullname: {
+        firstname: firstName,
+        lastname: lastName,
       },
-      password: password,
       email: email,
-    });
+      password: password,
+      vehicle: {
+        color: vehicleColor,
+        plate: vehiclePlate,
+        capacity: vehicleCapacity,
+        vehicleType: vehicleType,
+      },
+    };
 
-    console.log(userData);
+    console.log(captainData);
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/captain/register`,
+      captainData
+    );
+    if (response.status === 201) {
+      const data = response.data;
+      setCaptain(data.captain);
+      localStorage.setItem("token", data.token);
+      navigate("/captain-home");
+    }
 
     setEmail("");
     setFirstName("");
     setLastName("");
     setPassword("");
+    setVehicleColor("");
+    setVehiclePlate("");
+    setVehicleCapacity("");
+    setVehicleType("");
   };
 
   return (
@@ -147,9 +171,9 @@ function CaptainSignup() {
               <option value="" disabled>
                 Select Vehicle Type
               </option>
-              <option value="car">Car</option>
-              <option value="auto">Auto</option>
-              <option value="moto">Moto</option>
+              <option value="car">car</option>
+              <option value="auto">auto</option>
+              <option value="motorcycle">motorcycle</option>
             </select>
           </div>
 
