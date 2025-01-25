@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-// import axios from "axios";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import "remixicon/fonts/remixicon.css";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VehiclePanel from "../components/VehiclePanel";
@@ -98,21 +99,21 @@ function Home() {
   );
 
   // vehicleFoundRef
-   useGSAP(
-     function () {
-       if (vehicleFound) {
-         gsap.to(vehicleFoundRef.current, {
-           transform: "translateY(0)",
-         });
-       } else {
-         gsap.to(vehicleFoundRef.current, {
-           transform: "translateY(100%)",
-         });
-       }
-     },
-     [vehicleFound]
-   );
-  
+  useGSAP(
+    function () {
+      if (vehicleFound) {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [vehicleFound]
+  );
+
   // waitingForDriverRef
   useGSAP(
     function () {
@@ -131,12 +132,15 @@ function Home() {
 
   return (
     <div className="h-screen relative overflow-hidden">
-      <img
-        className="w-16 absolute left-5 top-5"
-        src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-        alt=""
-      />
-      <div className="h-screen w-screen">
+      <div className="fixed p-6 top-0 flex items-center justify-between w-screen">
+        <img
+          className="w-16"
+          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
+          alt=""
+        />
+      </div>
+
+      <div className="h-screen w-screen ">
         {/* image for temporary use  */}
         <img
           className="h-full w-full object-cover"
@@ -145,6 +149,14 @@ function Home() {
         />
       </div>
       <div className=" flex flex-col justify-end h-screen absolute top-0 w-full">
+        
+          <Link
+            to="/user/logout"
+            className=" h-10 w-10 bg-white flex items-center justify-center rounded-full"
+          >
+            <i className="text-lg font-medium ri-logout-box-r-line"></i>
+          </Link>
+       
         <div className="h-[30%] p-6 bg-white relative">
           <h5
             ref={panelCloseRef}

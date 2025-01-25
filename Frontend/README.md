@@ -277,3 +277,205 @@ src/
 - Session management
 - API request interceptors
 - Error handling middleware
+
+
+# Uber Clone Frontend
+
+A full-featured ride-sharing application frontend built with React and modern web technologies.
+
+## Project Overview
+
+This application provides two main interfaces:
+- User interface for booking rides
+- Captain (driver) interface for accepting rides
+
+## Core Features
+
+### User Features
+- Location search with suggestions
+- Multiple vehicle type selection
+- Real-time fare estimation
+- Ride booking and tracking
+- Payment method selection
+
+### Captain Features
+- Real-time ride requests
+- Profile management
+- Trip history
+- Earnings dashboard
+- Navigation integration
+
+## Technical Architecture
+
+### Component Structure
+```
+src/
+├── components/
+│   ├── booking/
+│   │   ├── LocationSearchPanel
+│   │   ├── VehiclePanel
+│   │   ├── ConfirmRide
+│   │   ├── LookingForDriver
+│   │   └── WaitingForDriver
+│   └── captain/
+│       ├── Dashboard
+│       └── TripHistory
+├── pages/
+│   ├── Home
+│   ├── CaptainHome
+│   ├── CaptainLogin
+│   └── CaptainProtectWrapper
+└── context/
+    └── CaptainContext
+```
+
+### State Management
+```javascript
+// Captain Context Example
+{
+  captain: {
+    id: string,
+    name: string,
+    vehicle: object,
+    isOnline: boolean
+  },
+  setCaptain: function,
+  isAuthenticated: boolean
+}
+```
+
+### Authentication Flow
+1. User/Captain Login
+2. JWT Token Generation
+3. Protected Route Validation
+4. Auto-redirect for Invalid Sessions
+
+## Technology Stack
+
+- **Frontend Framework**: React 18
+- **Routing**: React Router v6
+- **Styling**: Tailwind CSS
+- **HTTP Client**: Axios
+- **Animation**: GSAP
+- **Build Tool**: Vite
+
+## Environment Setup
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Configure environment variables:
+```env
+VITE_BASE_URL=your_backend_url
+VITE_MAPS_API_KEY=your_google_maps_key
+```
+
+3. Start development server:
+```bash
+npm run dev
+```
+
+## API Integration
+
+### Endpoints Structure
+```javascript
+const API_ROUTES = {
+  auth: {
+    userLogin: '/user/login',
+    captainLogin: '/captain/login',
+    logout: '/auth/logout'
+  },
+  rides: {
+    create: '/rides/create',
+    accept: '/rides/accept',
+    complete: '/rides/complete'
+  }
+}
+```
+
+## Component Documentation
+
+### Booking Flow Components
+
+1. **LocationSearchPanel**
+   - Handles location input
+   - Provides address suggestions
+   - Validates coordinates
+
+2. **VehiclePanel**
+   - Displays available vehicles
+   - Shows estimated fares
+   - Real-time availability
+
+3. **ConfirmRide**
+   - Trip summary
+   - Payment selection
+   - Booking confirmation
+
+4. **WaitingForDriver**
+   - Driver details
+   - Vehicle information
+   - OTP verification
+
+### Captain Flow Components
+
+1. **CaptainLogin**
+   - Authentication
+   - Profile validation
+   - Session management
+
+2. **CaptainHome**
+   - Ride requests
+   - Status toggle
+   - Navigation
+
+## Security Implementation
+
+- JWT based authentication
+- Protected route guards
+- Session management
+- API request interceptors
+
+## Development Guidelines
+
+1. Code Style
+   - Use functional components
+   - Implement proper error handling
+   - Follow component composition
+
+2. State Management
+   - Use Context for global state
+   - Local state for component-specific data
+   - Proper prop drilling avoidance
+
+## Testing
+
+```bash
+# Run unit tests
+npm run test
+
+# Run e2e tests
+npm run test:e2e
+```
+
+## Deployment
+
+1. Build the application:
+```bash
+npm run build
+```
+
+2. Preview production build:
+```bash
+npm run preview
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Create Pull Request
