@@ -4,6 +4,7 @@ import connectDB from './db/db.js';
 import dotenv from "dotenv";
 import UserRouter from './routes/user.routes.js';
 import captainRouter from './routes/captain.routes.js';
+import mapRouter from './routes/maps.routes.js';
 import cookieParser from 'cookie-parser';
 
 const app = express()
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use('/users', UserRouter);
 app.use('/captain', captainRouter);
 app.use('/captains', captainRouter); //some api on frontend is /captains
+app.use('/maps', mapRouter);
 
 
 

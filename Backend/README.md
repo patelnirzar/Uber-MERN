@@ -399,3 +399,166 @@ Logout the captain and blacklist their JWT token.
   "message": "Logged out"
 }
 ```
+
+## Maps API Endpoints
+
+### GET /maps/get-coordinates
+
+#### Description
+Convert an address string into geographic coordinates (latitude/longitude).
+
+#### Request
+- Method: `GET`
+- URL: `/maps/get-coordinates`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Query Parameters:
+  - `address`: string (required, min length: 3)
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Success |
+| 400 | Invalid address |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "coordinates": {
+    "latitude": "number",
+    "longitude": "number"
+  }
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Invalid address"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+### GET /maps/get-distance-time
+
+#### Description
+Calculate the distance and estimated travel time between two locations. This endpoint uses the Google Maps Distance Matrix API to provide accurate route information.
+
+#### Request
+- Method: `GET`
+- URL: `/maps/get-distance-time`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Query Parameters:
+  - `origin`: string (required, min length: 3)
+  - `destination`: string (required, min length: 3)
+
+#### Example Request
+```json
+{
+  "origin": "New York, NY",
+  "destination": "Los Angeles, CA"
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Success |
+| 400 | Invalid parameters |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "distance": {
+    "text": "2,789 miles",
+    "value": 4488000
+  },
+  "duration": {
+    "text": "1 day 18 hours",
+    "value": 151200
+  }
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Invalid parameters"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+### GET /maps/get-suggestions
+
+#### Description
+Get location suggestions for address autocomplete functionality. This endpoint uses the Google Maps Places API to provide real-time location suggestions based on user input.
+
+#### Request
+- Method: `GET`
+- URL: `/maps/get-suggestions`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Query Parameters:
+  - `input`: string (required, min length: 3)
+
+#### Example Request
+```json
+{
+  "input": "1600 Amphitheatre Parkway"
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Success |
+| 400 | Invalid input |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "suggestions": [
+    {
+      "description": "1600 Amphitheatre Parkway, Mountain View, CA, USA",
+      "place_id": "ChIJ2eUgeAK6j4ARbn5u_wAGqWA"
+    },
+    {
+      "description": "1600 Amphitheatre Parkway, Mountain View, CA, USA",
+      "place_id": "ChIJ2eUgeAK6j4ARbn5u_wAGqWA"
+    }
+  ]
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Invalid input"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
