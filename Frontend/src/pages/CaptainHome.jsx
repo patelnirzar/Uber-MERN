@@ -1,43 +1,51 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopUp from "../components/RidePopUp";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
-import { useEffect, useContext } from "react";
-// import { SocketContext } from "../context/SocketContext";
-// import { CaptainDataContext } from "../context/CapatainContext";
+import { SocketContext } from "../context/SocketContext.jsx";
+import { CaptainDataContext } from "../context/CapatainContext.jsx";
 import axios from "axios";
 
 function CaptainHome() {
-  const [ridePopupPanel, setRidePopupPanel] = useState(true);
+  const { captain, isLoading } = useContext(CaptainDataContext);
+  const { socket } = useContext(SocketContext);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const [ride, setRide] = useState(null);
 
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
-  
 
-  //  const { socket } = useContext(SocketContext);
-  //  const { captain } = useContext(CaptainDataContext);
+  useEffect(() => {
+    console.log(captain?._id);
+    socket.emit("join", { userType: "captain", userId: captain?._id });
+  },[captain])
+  
 
   //ride popup panel
-   useGSAP(
-     function () {
-       if (ridePopupPanel) {
-         gsap.to(ridePopupPanelRef.current, {
-           transform: "translateY(0)",
-         });
-       } else {
-         gsap.to(ridePopupPanelRef.current, {
-           transform: "translateY(100%)",
-         });
-       }
-     },
-     [ridePopupPanel]
-   );
-  
+  useGSAP(
+    function () {
+      if (ridePopupPanel) {
+        gsap.to(ridePopupPanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(ridePopupPanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [ridePopupPanel]
+  );
+
   //confirm ride popup panel
   useGSAP(
     function () {
@@ -84,10 +92,10 @@ function CaptainHome() {
         className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
       >
         <RidePopUp
-        // ride={ride}
-        setRidePopupPanel={setRidePopupPanel}
-        setConfirmRidePopupPanel={setConfirmRidePopupPanel}
-        // confirmRide={confirmRide}
+          // ride={ride}
+          setRidePopupPanel={setRidePopupPanel}
+          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+          // confirmRide={confirmRide}
         />
       </div>
       <div

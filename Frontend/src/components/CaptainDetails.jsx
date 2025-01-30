@@ -2,8 +2,11 @@ import React, { useContext } from "react";
 import { CaptainDataContext } from "../context/CapatainContext";
 
 const CaptainDetails = () => {
-  const { captain } = useContext(CaptainDataContext);
-
+  const { captain, isLoading } = useContext(CaptainDataContext);
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+  
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -14,8 +17,9 @@ const CaptainDetails = () => {
             alt=""
           />
           <h4 className="text-lg font-medium capitalize">
-            {/* {captain.fullname.firstname + " " + captain.fullname.lastname} */}
-            {`Nirzar Patel`}
+            {captain?.fullname.firstname + " " + captain?.fullname.lastname}
+            
+            {/* {`Nirzar Patel`} */}
           </h4>
         </div>
         <div>
