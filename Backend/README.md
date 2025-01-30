@@ -857,3 +857,80 @@ Calculate estimated fare for different vehicle types based on pickup and destina
   "message": "Unauthorized"
 }
 ```
+
+## WebSocket Integration
+
+### Overview
+The application uses WebSocket for real-time communication between clients and the server. The WebSocket server is initialized using the `initializeSocket` function.
+
+### Events
+
+#### Connection
+Triggered when a client connects to the WebSocket server.
+```javascript
+io.on('connection', (socket) => {
+    console.log(`Client connected: ${socket.id}`);
+    // ...existing code...
+});
+```
+
+#### Join
+Allows a user or captain to join the WebSocket server with their user ID and type.
+```javascript
+socket.on('join', async (data) => {
+    const { userId, userType } = data;
+    console.log(`User ${userId} joined as ${userType}`);
+    // ...existing code...
+});
+```
+
+#### Disconnect
+Triggered when a client disconnects from the WebSocket server.
+```javascript
+socket.on('disconnect', () => {
+    console.log(`Client disconnected: ${socket.id}`);
+});
+```
+
+### Functions
+
+#### initializeSocket
+Initializes the WebSocket server.
+```javascript
+export const initializeSocket = (server) => {
+    io = new Server(server, {
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST"]
+        }
+    });
+    // ...existing code...
+    return io;
+};
+```
+
+#### sendMessageToSocketId
+Sends a message to a specific socket ID.
+```javascript
+export const sendMessageToSocketId = (socketId, event, data) => {
+    if (io) {
+        io.to(socketId).emit(event, data);
+    }
+};
+```
+
+### Usage
+1. Initialize the WebSocket server in your main server file.
+2. Use the `sendMessageToSocketId` function to send messages to specific clients.
+
+```javascript
+import { initializeSocket, sendMessageToSocketId } from './socket.js';
+
+// Initialize WebSocket server
+const io = initializeSocket(server);
+
+// Send a message to a specific client
+sendMessageToSocketId(socketId, 'event_name', { key: 'value' });
+```
+
+For more details on WebSocket events and usage, refer to the `socket.js` file.
