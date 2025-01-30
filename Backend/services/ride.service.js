@@ -12,19 +12,19 @@ const getFare = async (pickup, destination) => {
     const baseFare = {
         auto: 30,
         car: 50,
-        motorcycle: 20
+        motorcycle: 15
     };
 
     const perKmRate = {
         auto: 10,
         car: 15,
-        motorcycle: 8
+        motorcycle: 5
     };
 
     const perMinuteRate = {
         auto: 2,
         car: 3,
-        motorcycle: 1.5
+        motorcycle: 1
     };
 
     //console.log(distanceTime)

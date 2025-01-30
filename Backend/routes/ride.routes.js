@@ -6,13 +6,13 @@ import { query } from 'express-validator';
 
 const rideRouter = express.Router();
 
-rideRouter.get('/create',
+rideRouter.post('/create',
     authUser,
-    [
+    
         body('pickup').isString().notEmpty().isLength({ min: 3 }).withMessage('Invalid origin'),
         body('destination').isString().notEmpty().isLength({ min: 3 }).withMessage('Invalid destination'),
         body('vehicleType').isString().notEmpty().isIn(['auto', 'car', 'motorcycle']).withMessage('Invalid vehicleType')
-    ],
+    ,
     createRideController
 )
 

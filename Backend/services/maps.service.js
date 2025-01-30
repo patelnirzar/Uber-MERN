@@ -63,10 +63,10 @@ const getAddressAutoCompleteSuggestions = async (input) => {
         const response = await axios.get(url);
         if (response.data.status === 'OK') {
             //raw data
-            return response.data.predictions;
+            //return response.data.predictions;
 
             //filtering the data
-            // return response.data.predictions.map(prediction => prediction.description);
+            return response.data.predictions.map(prediction => prediction.description);
             
         } else {
             throw new Error('Unable to fetch suggestions');
