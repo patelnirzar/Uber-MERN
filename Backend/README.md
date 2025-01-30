@@ -562,3 +562,298 @@ Get location suggestions for address autocomplete functionality. This endpoint u
   "message": "Unauthorized"
 }
 ```
+
+## Ride API Endpoints
+
+### POST /rides/create
+
+#### Description
+Create a new ride request with pickup, destination, and vehicle details.
+
+#### Request
+- Method: `POST`
+- URL: `/rides/create`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Body:
+```json
+{
+  "pickup": {
+    "address": "string", // required, min length: 3
+    "latitude": "number", // required
+    "longitude": "number" // required
+  },
+  "destination": {
+    "address": "string", // required, min length: 3
+    "latitude": "number", // required
+    "longitude": "number" // required
+  },
+  "vehicleType": "string" // required, enum: ['motorcycle', 'car', 'auto']
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 201 | Ride successfully created |
+| 400 | Validation error |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (201)
+```json
+{
+  "ride": {
+    "_id": "ride_id",
+    "pickup": {
+      "address": "123 Main St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "destination": {
+      "address": "456 Elm St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "vehicleType": "car",
+    "status": "pending",
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Validation error"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+### GET /rides/:rideId
+
+#### Description
+Get the details of a specific ride by its ID. Requires authentication.
+
+#### Request
+- Method: `GET`
+- URL: `/rides/:rideId`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Success |
+| 401 | Unauthorized |
+| 404 | Ride not found |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "ride": {
+    "_id": "ride_id",
+    "pickup": {
+      "address": "123 Main St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "destination": {
+      "address": "456 Elm St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "vehicleType": "car",
+    "status": "pending",
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (404)
+```json
+{
+  "message": "Ride not found"
+}
+```
+
+### PUT /rides/:rideId
+
+#### Description
+Update the details of a specific ride by its ID. Requires authentication.
+
+#### Request
+- Method: `PUT`
+- URL: `/rides/:rideId`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Body:
+```json
+{
+  "status": "string" // required, enum: ['pending', 'accepted', 'completed', 'cancelled']
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Ride successfully updated |
+| 400 | Validation error |
+| 401 | Unauthorized |
+| 404 | Ride not found |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "ride": {
+    "_id": "ride_id",
+    "pickup": {
+      "address": "123 Main St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "destination": {
+      "address": "456 Elm St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "vehicleType": "car",
+    "status": "accepted",
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Validation error"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (404)
+```json
+{
+  "message": "Ride not found"
+}
+```
+
+### DELETE /rides/:rideId
+
+#### Description
+Delete a specific ride by its ID. Requires authentication.
+
+#### Request
+- Method: `DELETE`
+- URL: `/rides/:rideId`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Ride successfully deleted |
+| 401 | Unauthorized |
+| 404 | Ride not found |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "message": "Ride successfully deleted"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (404)
+```json
+{
+  "message": "Ride not found"
+}
+```
+
+### GET /rides/get-ride-fare
+
+#### Description
+Calculate estimated fare for different vehicle types based on pickup and destination locations. Uses distance and duration from Google Maps API for accurate fare calculation.
+
+#### Request
+- Method: `GET`
+- URL: `/rides/get-ride-fare`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Query Parameters:
+  - `pickup`: string (required, min length: 3)
+  - `destination`: string (required, min length: 3)
+
+#### Example Request
+```json
+{
+  "pickup": "123 Main St",
+  "destination": "456 Elm St"
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Success |
+| 400 | Invalid parameters |
+| 401 | Unauthorized |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "fare": {
+    "motorcycle": 5.00,
+    "car": 10.00,
+    "auto": 7.50
+  }
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Invalid parameters"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
