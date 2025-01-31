@@ -1,8 +1,5 @@
-Based on the standard content for README.md files in similar projects, here's a short content suggestion for your `README.md`:
 
----
-
-# Uber-MERN
+# Uber Clone in MERN
 
 A full-stack application built with the MERN (MongoDB, Express, React, Node.js) stack to mimic the functionality of Uber.
 
