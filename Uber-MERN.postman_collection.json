@@ -1,0 +1,443 @@
+{
+	"info": {
+		"_postman_id": "e2589e58-f458-41d4-8c7d-6a4a60fd499e",
+		"name": "Uber-MERN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33963132",
+		"_collection_link": "https://roms-postman-team.postman.co/workspace/Team-Workspace~180328d9-1193-4bc9-89a2-1676b14533a4/collection/33963132-e2589e58-f458-41d4-8c7d-6a4a60fd499e?action=share&source=collection_link&creator=33963132"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullname\":{\n        \"firstname\":\"\",\n        \"lastname\":\"\"\n    },\n    \"email\":\"\",\n    \"password\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sever}}/users/register",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"\",\n    \"password\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sever}}/users/login",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProfile",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhmNWI5YmVmNTliNGUyNDFiNDI2NDIiLCJpYXQiOjE3Mzc0NTI1MDIsImV4cCI6MTczNzUzODkwMn0.4nxDuzec42PIztSgbKlw7EH6yvuSCWE4Qdjn9Z23Zm4",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{sever}}/users/profile",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhmNWI5YmVmNTliNGUyNDFiNDI2NDIiLCJpYXQiOjE3Mzc0NTE4MTh9.4PldOzi24lllqMTz_F52Uv1YeL1-w1EQmwDVQxn5DZI",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{sever}}/users/logout",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Captain",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullname\":{\n        \"firstname\":\"\",\n        \"lastname\":\"\"\n    },\n    \"email\":\"\",\n    \"password\":\"\",\n    \"vehicle\":{\n        \"color\":\"white\",\n        \"plate\":\"\",\n        \"capacity\":2,\n        \"vehicleType\":\"motorcycle\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sever}}/captain/register",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"captain",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"\",\n    \"password\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sever}}/captain/login",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"captain",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProfile",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhmN2Q0YjQ0YjhmNzdkMWY0ZWQzOTgiLCJpYXQiOjE3Mzc0NTc3NzIsImV4cCI6MTczNzU0NDE3Mn0.TpQdA9M7QAKdFPTG9hMBfAJjkzRhnRxEM-Z4x_oYOlg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{sever}}/captain/profile",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"captain",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhmNWI5YmVmNTliNGUyNDFiNDI2NDIiLCJpYXQiOjE3Mzc0NTE4MTh9.4PldOzi24lllqMTz_F52Uv1YeL1-w1EQmwDVQxn5DZI",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{sever}}/captain/logout",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"captain",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Maps",
+			"item": [
+				{
+					"name": "get-coordinates",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzkyMTAyODVjZjQ1NGRiNTY1YmE1NTMiLCJpYXQiOjE3Mzc2Mjk1NTksImV4cCI6MTczNzcxNTk1OX0.fgxDwmGnouvXU_NBCr525xpIdpPnoXrI3Db94GpBNoU",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{sever}}/maps/get-coordinates?address=xyz",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"maps",
+								"get-coordinates"
+							],
+							"query": [
+								{
+									"key": "address",
+									"value": "xyz"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-address-distance-time",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzkyMTAyODVjZjQ1NGRiNTY1YmE1NTMiLCJpYXQiOjE3Mzc2Mjk1NTksImV4cCI6MTczNzcxNTk1OX0.fgxDwmGnouvXU_NBCr525xpIdpPnoXrI3Db94GpBNoU",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{sever}}/maps/get-distance-time?origin=abc&destination=xyz",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"maps",
+								"get-distance-time"
+							],
+							"query": [
+								{
+									"key": "origin",
+									"value": "abc"
+								},
+								{
+									"key": "destination",
+									"value": "xyz"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-suggestions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzkyMTAyODVjZjQ1NGRiNTY1YmE1NTMiLCJpYXQiOjE3Mzc2Mjk1NTksImV4cCI6MTczNzcxNTk1OX0.fgxDwmGnouvXU_NBCr525xpIdpPnoXrI3Db94GpBNoU",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{sever}}/maps/get-suggestions?input=abc",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"maps",
+								"get-suggestions"
+							],
+							"query": [
+								{
+									"key": "input",
+									"value": "abc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ride",
+			"item": [
+				{
+					"name": "create ride",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzkyMTAyODVjZjQ1NGRiNTY1YmE1NTMiLCJpYXQiOjE3Mzc2Mjk1NTksImV4cCI6MTczNzcxNTk1OX0.fgxDwmGnouvXU_NBCr525xpIdpPnoXrI3Db94GpBNoU",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pickup\":\"\",\n    \"destination\":\"\",\n    \"vehicleType\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sever}}/rides/create",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"rides",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-ride-fare",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzkyMTAyODVjZjQ1NGRiNTY1YmE1NTMiLCJpYXQiOjE3Mzc2Mjk1NTksImV4cCI6MTczNzcxNTk1OX0.fgxDwmGnouvXU_NBCr525xpIdpPnoXrI3Db94GpBNoU",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{sever}}/rides/get-ride-fare?pickup=abc&destination=xyz",
+							"host": [
+								"{{sever}}"
+							],
+							"path": [
+								"rides",
+								"get-ride-fare"
+							],
+							"query": [
+								{
+									"key": "pickup",
+									"value": "abc"
+								},
+								{
+									"key": "destination",
+									"value": "xyz"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
