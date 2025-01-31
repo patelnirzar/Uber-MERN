@@ -30,10 +30,10 @@ const rideSchema = new mongoose.Schema({
     },
     duration: {
         type: Number
-    },//in seconds
+    },//in mins
     distance: {
         type: Number
-    },//in meters
+    },//in kms
     paymentId: {
         type: String
     },

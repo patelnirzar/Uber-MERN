@@ -34,8 +34,10 @@ const registerCaptain = async (req, res) => {
 
     return res.status(201).json({
         token, captain: {
-            firstname: captain.fullname.firstname,
-            lastname: captain.fullname.lastname,
+            fullname: {
+                firstname: captain.fullname.firstname,
+                lastname: captain.fullname.lastname,
+            },
             email: captain.email,
             color: captain.vehicle.color,
             plate: captain.vehicle.plate,

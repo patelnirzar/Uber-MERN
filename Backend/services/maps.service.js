@@ -1,6 +1,7 @@
 import axios from "axios";
+import { Captain } from "../model/captain.model.js";
 
-const getAddressCoordinates = async (address) => { 
+const getAddressCoordinates = async (address) => {
     const apiKey = process.env.GOOGLE_MAPS_API;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
@@ -22,7 +23,7 @@ const getAddressCoordinates = async (address) => {
     }
 };
 
-const getAddressDistanceTime = async (origin, destination) => { 
+const getAddressDistanceTime = async (origin, destination) => {
     const apiKey = process.env.GOOGLE_MAPS_API;
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
@@ -55,7 +56,7 @@ const getAddressDistanceTime = async (origin, destination) => {
     }
 };
 
-const getAddressAutoCompleteSuggestions = async (input) => { 
+const getAddressAutoCompleteSuggestions = async (input) => {
     const apiKey = process.env.GOOGLE_MAPS_API;
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
 
@@ -67,7 +68,7 @@ const getAddressAutoCompleteSuggestions = async (input) => {
 
             //filtering the data
             return response.data.predictions.map(prediction => prediction.description);
-            
+
         } else {
             throw new Error('Unable to fetch suggestions');
         }
@@ -77,4 +78,19 @@ const getAddressAutoCompleteSuggestions = async (input) => {
     }
 };
 
-export { getAddressCoordinates, getAddressDistanceTime, getAddressAutoCompleteSuggestions };
+const getCaptainsInTheRadius = async (ltd, lng, radius) => {
+
+    // radius in km
+    const captains = await Captain.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [[ltd, lng], radius / 6371]
+            }
+        }
+    });
+
+    return captains;
+
+};
+
+export { getAddressCoordinates, getAddressDistanceTime, getAddressAutoCompleteSuggestions, getCaptainsInTheRadius };

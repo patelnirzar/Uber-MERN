@@ -14,26 +14,34 @@ const CaptainContext = ({ children }) => {
   
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      axios
-        .get(`${import.meta.env.VITE_BASE_URL}/captain/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            setCaptain(response.data.captain);
+    const fetchCaptainProfile = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/captain/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
+        );
+
+        if (response.status === 200) {
+          setCaptain(response.data.captain);
+        }
+      } catch (error) {
+        console.error("Error fetching captain profile:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCaptainProfile();
   }, []);
 
   // const value = {

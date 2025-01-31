@@ -13,19 +13,13 @@ import { SocketContext } from "../context/SocketContext";
 import { useContext } from "react";
 import { UserDataContext } from "../context/UserContext";
 import { use } from "react";
-// import { useNavigate } from "react-router-dom";
-// import LiveTracking from "../components/LiveTracking";
+import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 function Home() {
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [panelOpen, setPanelOpen] = useState(false);
-  const vehiclePanelRef = useRef(null);
-  const confirmRidePanelRef = useRef(null);
-  const vehicleFoundRef = useRef(null);
-  const waitingForDriverRef = useRef(null);
-  const panelRef = useRef(null);
-  const panelCloseRef = useRef(null);
   const [vehiclePanel, setVehiclePanel] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
@@ -38,13 +32,37 @@ function Home() {
   const [ride, setRide] = useState(null);
   const [distanceAndTime, setDistanceAndTime] = useState({});
 
+  const vehiclePanelRef = useRef(null);
+  const confirmRidePanelRef = useRef(null);
+  const vehicleFoundRef = useRef(null);
+  const waitingForDriverRef = useRef(null);
+  const panelRef = useRef(null);
+  const panelCloseRef = useRef(null);
+  
   const { socket } = useContext(SocketContext);
   const { user } = useContext(UserDataContext);
 
+  const navigate = useNavigate();
+
+  //connect with socket 
   useEffect(() => { 
     console.log(user._id)
     socket.emit("join", { userType: "user", userId: user._id });
-  },[user]);
+  }, [user]);
+  
+  //trigger when captain confirm the ride 
+  socket.on("ride-confirmed", (ride) => {
+    setVehicleFound(false);
+    setWaitingForDriver(true);
+    setRide(ride);
+  });
+
+  //trigger when ride is started
+  socket.on("ride-started", (ride) => {
+    console.log("ride");
+    setWaitingForDriver(false);
+    navigate("/riding", { state: { ride } }); // Updated navigate to include ride data
+  });
 
   const fetchSuggestions = async (input, type) => {
     try {
@@ -230,6 +248,7 @@ function Home() {
         headers: headers,
       })
       .then((res) => {
+        setRide(res.data)
         console.log(res.data);
       })
       .catch((err) => {
@@ -247,13 +266,16 @@ function Home() {
         />
       </div>
 
-      <div className="h-screen w-screen ">
+      <div className="h-[70%] w-screen ">
         {/* image for temporary use  */}
-        <img
+        {/* <img
           className="h-full w-full object-cover"
           src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
           alt=""
-        />
+        /> */}
+
+        {/* Live location tracking component */}
+        <LiveTracking />
       </div>
       <div className=" flex flex-col justify-end h-screen absolute top-0 w-full">
         <Link
@@ -280,7 +302,7 @@ function Home() {
               findTrip(e);
             }}
           >
-            <div className="line absolute h-16 w-1 top-[35%] -translate-y-1/2 left-5 bg-gray-700 rounded-full"></div>
+            <div className="line absolute h-16 w-1 top-[50%] -translate-y-1/2 left-5 bg-gray-700 rounded-full"></div>
             <input
               onClick={() => {
                 setPanelOpen(true);
@@ -303,13 +325,13 @@ function Home() {
               type="text"
               placeholder="Enter your destination"
             />
-            <button
+            {/* <button
               // onClick={findTrip}
               type="submit"
               className="bg-black text-white px-4 py-2 rounded-lg mt-3 w-full"
             >
               Find Trip
-            </button>
+            </button> */}
           </form>
         </div>
         <div ref={panelRef} className="bg-white h-0">
@@ -365,11 +387,8 @@ function Home() {
         className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12"
       >
         <LookingForDriver
-          createRide={createRide}
-          pickup={pickup}
-          destination={destination}
-          fare={fare}
-          vehicleType={vehicleType}
+          // createRide={createRide}
+          ride={ride}
           setVehicleFound={setVehicleFound}
           setWaitingForDriver={setWaitingForDriver}
           distanceAndTime={distanceAndTime}
@@ -382,7 +401,7 @@ function Home() {
         className="fixed w-full  z-10 bottom-0  bg-white px-3 py-6 pt-12"
       >
         <WaitingForDriver
-          // ride={ride}
+          ride={ride}
           setVehicleFound={setVehicleFound}
           setWaitingForDriver={setWaitingForDriver}
           waitingForDriver={waitingForDriver}

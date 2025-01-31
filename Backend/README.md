@@ -858,6 +858,213 @@ Calculate estimated fare for different vehicle types based on pickup and destina
 }
 ```
 
+### POST /rides/confirm
+
+#### Description
+Confirm a ride by its ID. Requires authentication.
+
+#### Request
+- Method: `POST`
+- URL: `/rides/confirm`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Body:
+```json
+{
+  "rideId": "string" // required, valid MongoDB ObjectId
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Ride successfully confirmed |
+| 400 | Validation error |
+| 401 | Unauthorized |
+| 404 | Ride not found |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "ride": {
+    "_id": "ride_id",
+    "pickup": {
+      "address": "123 Main St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "destination": {
+      "address": "456 Elm St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "vehicleType": "car",
+    "status": "accepted",
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Validation error"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (404)
+```json
+{
+  "message": "Ride not found"
+}
+```
+
+### GET /rides/start-ride
+
+#### Description
+Start a ride by its ID and OTP. Requires authentication.
+
+#### Request
+- Method: `GET`
+- URL: `/rides/start-ride`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Query Parameters:
+  - `rideId`: string (required, valid MongoDB ObjectId)
+  - `otp`: string (required, length: 6)
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Ride successfully started |
+| 400 | Validation error |
+| 401 | Unauthorized |
+| 404 | Ride not found |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "ride": {
+    "_id": "ride_id",
+    "pickup": {
+      "address": "123 Main St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "destination": {
+      "address": "456 Elm St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "vehicleType": "car",
+    "status": "ongoing",
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Validation error"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (404)
+```json
+{
+  "message": "Ride not found"
+}
+```
+
+### POST /rides/end-ride
+
+#### Description
+End a ride by its ID. Requires authentication.
+
+#### Request
+- Method: `POST`
+- URL: `/rides/end-ride`
+- Headers: 
+  - `Authorization: Bearer <jwt_token>`
+- Body:
+```json
+{
+  "rideId": "string" // required, valid MongoDB ObjectId
+}
+```
+
+#### Response Codes
+| Status Code | Description |
+|------------|-------------|
+| 200 | Ride successfully ended |
+| 400 | Validation error |
+| 401 | Unauthorized |
+| 404 | Ride not found |
+| 500 | Internal server error |
+
+#### Success Response (200)
+```json
+{
+  "ride": {
+    "_id": "ride_id",
+    "pickup": {
+      "address": "123 Main St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "destination": {
+      "address": "456 Elm St",
+      "latitude": 40.712776,
+      "longitude": -74.005974
+    },
+    "vehicleType": "car",
+    "status": "completed",
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "message": "Validation error"
+}
+```
+
+#### Error Response (401)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (404)
+```json
+{
+  "message": "Ride not found"
+}
+```
+
 ## WebSocket Integration
 
 ### Overview

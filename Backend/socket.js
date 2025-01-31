@@ -18,14 +18,31 @@ export const initializeSocket = (server) => {
         socket.on('join', async (data) => {
             const { userId, userType } = data;
 
-            console.log(`User ${userId} joined as ${userType}`);
-
-            if (userType === 'user') {
-                await User.findByIdAndUpdate(userId, { socketId: socket.id });
-            } else if (userType === 'captain') {
-                await Captain.findByIdAndUpdate(userId, { socketId: socket.id });
+            if (userId) {
+                if (userType === 'user') {
+                    await User.findByIdAndUpdate(userId, { socketId: socket.id });
+                } else if (userType === 'captain') {
+                    await Captain.findByIdAndUpdate(userId, { socketId: socket.id });
+                }
+                console.log(`User ${userId} joined as ${userType}`);
             }
         });
+
+        socket.on("update-location-captain",async (data) => {
+            const { userId, location } = data;
+
+            if (!location || !location.ltd || !location.lng) {
+                return socket.emit('error', { message: 'Invalid location data' });
+            }
+
+            // console.log(`updating location of ${userId}`)
+            await Captain.findByIdAndUpdate(userId, {
+                location: {
+                    ltd: location.ltd,
+                    lng: location.lng
+                }
+            });
+        })
 
         socket.on('disconnect', () => {
             console.log(`Client disconnected: ${socket.id}`);
@@ -35,8 +52,13 @@ export const initializeSocket = (server) => {
     return io;
 };
 
-export const sendMessageToSocketId = (socketId, event, data) => {
+export const sendMessageToSocketId = (socketId, messageObject) => {
+
+    console.log(`Sending message on ${messageObject.event} to ${socketId}`);
+
     if (io) {
-        io.to(socketId).emit(event, data);
+        io.to(socketId).emit(messageObject.event, messageObject.data);
+    } else {
+        console.log('Socket.io not initialized.');
     }
-};
+}
